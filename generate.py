@@ -14,6 +14,8 @@ p=WiktionaryParser()
 w=p.fetch(expr,language="English")
 print("found %d entries"%len(w))
 
+generated_list=set()
+
 for e in w:
     print("#"*50)
     for e2 in e['definitions']:
@@ -22,6 +24,9 @@ for e in w:
                 for w in r['words']:
                     w=w.replace('See also Thesaurus:','')
                     w=w.replace('(','')
-                    w=w.replace('):','')
-                    print (w)
-                    print("-"*50)
+                    w=w.replace('):',',')
+                    related_list=w.split(', ')
+                    for a in related_list:
+                        if not a in generated_list:
+                            generated_list.add(a)
+                            print("NEW:",a)
